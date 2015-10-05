@@ -32587,7 +32587,9 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	getInitialState: function getInitialState() {
-		return { error: null };
+		return {
+			error: null
+		};
 	},
 	render: function render() {
 		var errorElement = null;
@@ -32658,14 +32660,14 @@ module.exports = React.createClass({
 		var _this = this;
 
 		e.preventDefault();
-		console.log('register clicked');
+		//console.log('register clicked');
 		Parse.User.logIn(this.refs.email.getDOMNode().value, this.refs.password.getDOMNode().value, {
 			success: function success(user) {
-				console.log(user);
+				//console.log(user);
 				_this.props.router.navigate('dashboard', { trigger: true });
 			},
 			error: function error(user, _error) {
-				console.log(user, _error);
+				//console.log(user, error);
 				_this.setState({
 					error: _error.message
 				});
@@ -32850,6 +32852,8 @@ var RegisterComponent = require('./components/RegisterComponent');
 
 var app = document.getElementById('app');
 
+Parse.User.logOut();
+
 React.render(React.createElement(NavigationComponent, null), document.getElementById('nav'));
 
 var Router = Backbone.Router.extend({
@@ -32863,7 +32867,12 @@ var Router = Backbone.Router.extend({
 		React.render(React.createElement(HomeComponent, null), app);
 	},
 	dashboard: function dashboard() {
-		React.render(React.createElement(DashboardComponent, null), app);
+		if (Parse.User.current()) {
+			React.render(React.createElement(DashboardComponent, null), app);
+		}
+		if (!Parse.User.current()) {
+			React.render(React.createElement(LoginComponent, { router: r }), app);
+		}
 	},
 	login: function login() {
 		React.render(React.createElement(LoginComponent, { router: r }), app);

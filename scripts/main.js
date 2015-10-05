@@ -14,6 +14,8 @@ var RegisterComponent = require('./components/RegisterComponent');
 
 var app = document.getElementById('app');
 
+Parse.User.logOut();
+
 React.render(
 	<NavigationComponent />,
 	document.getElementById('nav')
@@ -30,10 +32,15 @@ var Router = Backbone.Router.extend({
 		React.render(<HomeComponent />, app);
 	},
 	dashboard: function() {
+		if(Parse.User.current()){
 		React.render(<DashboardComponent />, app);
+		}
+		if(!Parse.User.current()) {
+			React.render(<LoginComponent router={r} />, app);
+		}
 	},
 	login: function() {
-		React.render(<LoginComponent router={r}/>, app);
+		React.render(<LoginComponent router={r} />, app);
 	},
 	register: function() {
 		React.render(<RegisterComponent router={r} />, app);

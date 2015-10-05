@@ -2,7 +2,9 @@ var React = require('react');
 
 module.exports = React.createClass({
 	getInitialState: function() {
-		return { error: null };
+		return { 
+			error: null
+		 };
 	},
 	render: function() {
 		var errorElement = null;
@@ -39,14 +41,15 @@ module.exports = React.createClass({
 	},
 	 onLogin: function(e) {
 	 	e.preventDefault();
-	 	console.log('register clicked');
-	 	Parse.User.logIn(this.refs.email.getDOMNode().value, this.refs.password.getDOMNode().value, {
+	 	//console.log('register clicked');
+	 	Parse.User.logIn(this.refs.email.getDOMNode().value, this.refs.password.getDOMNode().value, 
+	 	{
   			success: (user) => {
-  				console.log(user);
+  				//console.log(user);
     			this.props.router.navigate('dashboard', {trigger: true});
   			},
   			error: (user, error) => {
-  				console.log(user, error);
+  				//console.log(user, error);
     			this.setState({
 						error: error.message
 					});
